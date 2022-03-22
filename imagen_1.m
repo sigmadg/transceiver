@@ -133,7 +133,7 @@ nonHTcfg.PSDULength = lengthMPDU/bitsPerOctet; % Establecer la longitud de PSDU
 
 % El sdrTransmitter utiliza el comando | transmitRepeat | para transmitir la forma de onda WLAN de banda base en un bucle desde la memoria DDR en PlutoSDR.
 % La señal de RF transmitida se sobremuestrea y se transmite a 30 MHz.
-% La señal% 802.11a se transmite en el canal 5, que corresponde a un centro de frecuencia de 2.432 GHz según se define en la sección 17.4.6.3 de [1].
+% La señal% 802.11a se transmite en el canal de 1.2Ghz, que corresponde a un centro de frecuencia de 2.432 GHz según se define en la sección 17.4.6.3 de [1].
 
 sdrTransmitter = sdrtx(deviceNameSDR); % Propiedades del transmisor
 sdrTransmitter.RadioID = 'usb:0';
@@ -144,7 +144,7 @@ fs = wlanSampleRate(nonHTcfg); % Transmitir frecuencia de muestreo en MHz
 osf = 1.5;                     % Factor de sobremuestreo
 
 sdrTransmitter.BasebandSampleRate = fs*osf;
-sdrTransmitter.CenterFrequency = 1e9;  % Canal 5
+sdrTransmitter.CenterFrequency = 1e9;  
 sdrTransmitter.ShowAdvancedProperties = true;
 sdrTransmitter.Gain = txGain;
 

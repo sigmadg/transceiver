@@ -48,36 +48,36 @@ radio = sdrdev(deviceNameSDR); % Crea el objeto del dispositivo SDR
 bandera = 2;
 % txGain = -20;
 
-% Preparar el archivo de imagenn
+% Preparar el archivo de imagen
 
-% Ingresa un archivo de imagenn y lo convierte en flujo binario
-fileTx = 'upiita.jpg';             % Nombre del archivo de imagenn
-fData = imread(fileTx);            % Leer datos de imagenn del archivo
-scale = 0.2;                       % Factor de escala de imagenn
-origSize = size(fData);            % Tamaño de la imagenn de entrada original
-scaledSize = max(floor(scale.*origSize(1:2)),1); % Calcular el nuevo tamaño de la imagenn
+% Ingresa un archivo de imagen y lo convierte en flujo binario
+fileTx = 'upiita.jpg';             % Nombre del archivo de imagen
+fData = imread(fileTx);            % Leer datos de imagen del archivo
+scale = 0.2;                       % Factor de escala de imagen
+origSize = size(fData);            % Tamaño de la imagen de entrada original
+scaledSize = max(floor(scale.*origSize(1:2)),1); % Calcular el nuevo tamaño de la imagen
 heightIx = min(round(((1:scaledSize(1))-0.5)./scale+0.5),origSize(1));
 widthIx = min(round(((1:scaledSize(2))-0.5)./scale+0.5),origSize(2));
-fData = fData(heightIx,widthIx,:); % Cambiar el tamaño de la imagenn
-imsize = size(fData);              % Almacenar un nuevo tamaño de imagenn
+fData = fData(heightIx,widthIx,:); % Cambiar el tamaño de la imagen
+imsize = size(fData);              % Almacenar un nuevo tamaño de imagen
 binData = dec2bin(fData(:),8);     % Convierta a 8 bits unsigned binario
 tximagen = reshape((binData-'0').',1,[]).'; % Crear flujo binario
 
-% Cuando el archivo de imagenn se recibe y decodifica correctamente, muestra la imagenn.
+% Cuando el archivo de imagen se recibe y decodifica correctamente, muestra la imagen.
 
-% Grafica la imagenn transmitida
+% Grafica la imagen transmitida
 figure(imFig);
 imFig.Visible = 'on';
 subplot(211);
     imshow(fData);
-    title('imagenn Transmitida');
+    title('imagen Transmitida');
 subplot(212);
     title('La imagen recibida aparecera aqui...');
     set(gca,'Visible','off');
     set(findall(gca, 'type', 'text'), 'visible', 'on');
-pause(1); % Pausa para trazar la imagenn transmitida
+pause(1); % Pausa para trazar la imagen transmitida
 
-% El archivo de imagenn | tximagen |.
+% El archivo de imagen | tximagen |.
 % El flujo de datos binarios se divide en unidades de transmisión de tamaño | msduLength |.
 % Se agregan un encabezado MAC y un campo CRC a cada unidad de transmisión para constituir una MPDU.
 % La longitud del MPDU no debe exceder los 4095 bytes.
@@ -375,7 +375,7 @@ release(sdrReceiver);
 
 % *Reconstruct imagen*
 
-% La imagenn se reconstruye a partir de las tramas MAC recibidas.
+% La imagen se reconstruye a partir de las tramas MAC recibidas.
 if ~(isempty(fineTimingOffset)||isempty(pktOffset))&& (numMSDUs==(numel(packetSeq)-1))
     % Elimina el encabezado MAC y duplica el fragmento MAC capturado
     rxBitMatrix = cell2mat(rxBit);
@@ -399,14 +399,14 @@ if ~(isempty(fineTimingOffset)||isempty(pktOffset))&& (numMSDUs==(numel(packetSe
     decdata = uint8(bin2dec(str));
 
     receivedimagen = reshape(decdata,imsize);
-    % Grafica imagenn recibida
+    % Grafica imagen recibida
     if exist('imFig', 'var') && ishandle(imFig) %Verifica si la figura de Tx está abierta
         figure(imFig); subplot(212);
     else
         figure; subplot(212);
     end
     imshow(receivedimagen);
-    title(sprintf('imagenn Recibida'));
+    title(sprintf('imagen Recibida'));
 
     if err(2) >= 10
       fprintf(' El programa tiene muchos errores \n\n');
